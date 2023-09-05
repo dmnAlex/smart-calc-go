@@ -9,7 +9,7 @@ import (
 func main() {
 	app := app.New()
 
-	c := view.NewCalculator()
-	c.LoadUI(app)
+	ui := view.NewUI()
+	ui.LoadUI(app)
 	app.Run()
 }

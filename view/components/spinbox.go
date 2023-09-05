@@ -1,4 +1,4 @@
-package view
+package components
 
 import (
 	"strconv"
@@ -24,10 +24,7 @@ func NewSpinbox(placeholder string) *Spinbox {
 		value := entry.GetValue()
 		entry.SetValue(value - 1)
 	})
-	entry.ActionItem = container.NewGridWithRows(2,
-		incBtn,
-		decBtn,
-	)
+	entry.ActionItem = container.NewGridWithRows(2, incBtn, decBtn)
 	entry.Validator = func(s string) error {
 		_, err := strconv.ParseFloat(s, 64)
 		return err
