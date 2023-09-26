@@ -40,7 +40,7 @@ Create a distribution package ([fyne](https://developer.fyne.io/started/) is req
 task pack
 ```
 
-Build for the Linux/Windows platform using fyne-cross ([fyne-cross](https://developer.fyne.io/started/) and [docker](https://docs.docker.com/engine/install/) are required):
+Build for the Linux/Windows platform using fyne-cross ([fyne-cross](https://github.com/fyne-io/fyne-cross/) and [docker](https://docs.docker.com/engine/install/) are required):
 
 ```shell
 task cross-linux
