@@ -55,7 +55,3 @@ Run tests:
 ```shell
 task test
 ```
-
-## Author
-
-This project is authored by hsensor.
