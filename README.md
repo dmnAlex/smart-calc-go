@@ -1,31 +1,61 @@
-# Smart calc (WIP)
+# Smart Calc Go
 
-## Описание
+<!-- markdownlint-disable -->
+<div align="center">
+  <p align="center">
+    <a href="#about">About</a> •
+    <a href="#features">Features</a> •
+    <a href="#usage">Usage</a>
+  </p>
+  <img src="demo.gif" alt="Smart Calc Animation" />
+</div>
+<!-- markdownlint-enable -->
 
-Калькулятор с поддержкой экспоненциальной записи, тригонометрических функций, построением графиков. А также кредитный и депозитный калькуляторы. “Ядро” калькулятора в виде алгоритма формирования (алгоритм Дейкстры) и вычисления польской нотации и различных вычислительных функций реализованно в виде динамической библиотеки на C/C++.
+## About
 
-## Сборка и установка
+Smart Calc is a feature-rich calculator that supports exponential notation, trigonometric functions, and graph plotting. The core of this calculator is implemented as an algorithm for expression parsing (Dijkstra's algorithm) and calculation of Polish notation. Various computational functions are implemented in C/C++ and integrated into the main codebase, while the program itself is written in Golang(fyne).
 
-Запуск осущетствляется в папке с исходными файлами с помощью команды **`make`**
+## Features
 
-## Поддерживает
+- Implementation of Dijkstra's algorithm for converting expressions to Reverse Polish Notation (Shunting Yard Algorithm).
+- The algorithm is written in C++ and integrated using the SWIG utility.
+- Follows the Model-View-ViewModel (MVVM) design pattern.
+- Cross-compilation support for both Windows and Linux platforms.
+- Custom Fyne widgets for UI.
+- Features include saving application settings, maintaining a history of calculations, and logging operations with log rotation options.
 
-1. Арифметические операторы:
-    - скобки (a + b),
-    - сложение a + b,
-    - вычитание a - b,
-    - деление a / b,
-    - умножение a * b,
-    - возведение в степень a ^ b,
-    - остаток от деления a Mod b,
-    - унарный минус -a;
-2. Функции:
-    - косинус cos(x),
-    - синус sin(x),
-    - тангенс tan(x),
-    - арккосинус acos(x),
-    - арксинус asin(x),
-    - арктангенс atan(x),
-    - квадратный корень sqrt(x),
-    - натуральный логарифм ln(x),
-    - десятичный логарифм log(x)
+## Usage
+
+To use this project, you can utilize the following [task](https://taskfile.dev/) commands:
+
+ Build the application:
+
+```shell
+task build
+```
+
+Create a distribution package:
+
+```shell
+task pack
+```
+
+Build for the Linux/Windows platform using fyne-cross:
+
+```shell
+task cross-linux
+```
+
+```shell
+task cross-windows
+```
+
+Run tests:
+
+```shell
+task test
+```
+
+## Author
+
+This project is authored by hsensor.

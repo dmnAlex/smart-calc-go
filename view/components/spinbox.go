@@ -3,64 +3,47 @@ package components
 import (
 	"strconv"
 
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/data/binding"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
 
 type Spinbox struct {
-	widget.Entry
+	widget.BaseWidget
+	data binding.Float
 }
 
-func NewSpinbox(placeholder string) *Spinbox {
-	entry := &Spinbox{}
-	entry.ExtendBaseWidget(entry)
-	entry.PlaceHolder = placeholder
-	incBtn := widget.NewButtonWithIcon("", theme.MoveUpIcon(), func() {
-		value := entry.GetValue()
-		entry.SetValue(value + 1)
-	})
-	decBtn := widget.NewButtonWithIcon("", theme.MoveDownIcon(), func() {
-		value := entry.GetValue()
-		entry.SetValue(value - 1)
-	})
-	entry.ActionItem = container.NewGridWithRows(2, incBtn, decBtn)
+func NewSpinbox(data binding.Float) *Spinbox {
+	spinbox := &Spinbox{data: data}
+	spinbox.ExtendBaseWidget(spinbox)
+
+	return spinbox
+}
+
+func (s *Spinbox) CreateRenderer() fyne.WidgetRenderer {
+	label := widget.NewLabelWithStyle("X :", fyne.TextAlignCenter, fyne.TextStyle{Bold: true})
+
+	entry := widget.NewEntryWithData(binding.FloatToString(s.data))
+	entry.Bind(binding.FloatToString(s.data))
+	entry.PlaceHolder = "Enter the value here.."
+
 	entry.Validator = func(s string) error {
 		_, err := strconv.ParseFloat(s, 64)
 		return err
 	}
 
-	return entry
+	incBtn := widget.NewButtonWithIcon("", theme.MoveUpIcon(), func() {
+		value, _ := s.data.Get()
+		s.data.Set(value + 1)
+	})
+	decBtn := widget.NewButtonWithIcon("", theme.MoveDownIcon(), func() {
+		value, _ := s.data.Get()
+		s.data.Set(value - 1)
+	})
+
+	buttons := container.NewHBox(incBtn, decBtn)
+
+	return widget.NewSimpleRenderer(container.NewBorder(nil, nil, label, buttons, entry))
 }
-
-func (e *Spinbox) TypedRune(r rune) {
-	if (r >= '0' && r <= '9') || r == '.' || r == ',' {
-		e.Entry.TypedRune(r)
-	}
-}
-
-func (e *Spinbox) SetValue(value float64) {
-	e.SetText(strconv.FormatFloat(value, 'f', 6, 64))
-}
-
-func (e *Spinbox) GetValue() float64 {
-	value, _ := strconv.ParseFloat(e.Text, 64)
-	return value
-}
-
-// func (e *Spinbox) TypedShortcut(shortcut fyne.Shortcut) {
-// 	paste, ok := shortcut.(*fyne.ShortcutPaste)
-// 	if !ok {
-// 		e.Entry.TypedShortcut(shortcut)
-// 		return
-// 	}
-
-// 	content := paste.Clipboard.Content()
-// 	if _, err := strconv.ParseFloat(content, 64); err == nil {
-// 		e.Entry.TypedShortcut(shortcut)
-// 	}
-// }
-
-// func (e *Spinbox) Keyboard() mobile.KeyboardType {
-// 	return mobile.NumberKeyboard
-// }

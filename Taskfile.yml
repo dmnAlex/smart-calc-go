@@ -1,0 +1,56 @@
+version: '3'
+
+env:
+  PROJECT_NAME: smartcalc
+  PROJECT_ID: smartcalc.hsensor
+  BUILD_DIR: build
+  FYNE_DIR: fyne-cross
+  BIN_DIR: bin
+  DIST_DIR: dist
+  MODEL_DIR: model
+
+tasks:
+  default:
+    cmds:
+      - task -l
+  test:
+    desc: run tests
+    cmds:
+      - go test -v ./...
+  build:
+    desc: build the application
+    cmds:
+      - go build -o '{{.BUILD_DIR}}/{{.BIN_DIR}}/{{.PROJECT_NAME}}'
+  pack:
+    desc: pack the application
+    dir: '{{.BUILD_DIR}}/{{.DIST_DIR}}'
+    cmds:
+      - fyne package -release -src '{{.TASKFILE_DIR}}' -name '{{.PROJECT_NAME}}' -id '{{.PROJECT_ID}}'
+  clean:
+    desc: clean build files
+    cmds:
+      - rm -rf '{{.BUILD_DIR}}' '{{.FYNE_DIR}}'
+  swig-build:
+    desc: create the model wrapper files with SWIG
+    dir: '{{.MODEL_DIR}}'
+    cmds:
+      - swig -go -cgo -c++ -intgosize 64 model.i
+      - go install
+  swig-clean:
+    desc: delete the model wrapper files
+    dir: '{{.MODEL_DIR}}'
+    cmds:
+      - rm -rf model.go model_wrap.cxx
+  cross-windows:
+    desc: build for windows using fyne-cross
+    cmds:
+      - fyne-cross windows -name '{{.PROJECT_NAME}}.exe' -app-id '{{.PROJECT_ID}}' -icon Icon.png
+  cross-linux:
+    desc: build for linux using fyne-cross
+    cmds:
+      - fyne-cross linux -release -name '{{.PROJECT_NAME}}' -icon Icon.png
+
+
+
+
+  

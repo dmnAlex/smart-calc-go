@@ -6,7 +6,13 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
+)
+
+const (
+	Padding = 20
 )
 
 type UI struct {
@@ -20,17 +26,42 @@ func NewUI() *UI {
 	}
 }
 
-func (ui *UI) LoadUI(app fyne.App) {
+func (ui *UI) LoadUI() {
+	app := fyne.CurrentApp()
+	ui.setTheme(app)
 	ui.window = app.NewWindow("SmartCalc")
+	ui.window.SetMaster()
+	ui.window.SetOnClosed(ui.vm.Close)
+	InitLogger()
 
-	tabs := container.NewAppTabs(
-		container.NewTabItem("Calculator", components.NewCalculator(ui.vm)),
-		container.NewTabItem("Plot", components.NewGraphPlotter(ui.vm)),
-		container.NewTabItem("Loan", widget.NewLabel("Loan calculator")),
-		container.NewTabItem("Deposit", widget.NewLabel("Deposit calculator")),
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarSpacer(),
+		widget.NewToolbarAction(theme.SettingsIcon(), func() {
+			dialog := dialog.NewCustom("Settings", "close", components.NewSettings(), ui.window)
+			dialog.Show()
+		}),
+		widget.NewToolbarAction(theme.HelpIcon(), func() {
+			dialog := dialog.NewCustom("", "close", components.NewHelp(), ui.window)
+			dialog.Resize(ui.window.Canvas().Size().Subtract(fyne.Size{Width: theme.Padding(), Height: theme.Padding()}))
+			dialog.Show()
+		}),
 	)
 
-	ui.window.SetContent(tabs)
-	ui.window.Resize(fyne.NewSize(400, 600))
+	calculator := components.NewCalculator(ui.vm, ui.window)
+	content := container.NewBorder(toolbar, nil, nil, nil, calculator)
+
+	ui.window.SetContent(content)
+	ui.window.Resize(fyne.NewSize(600, 800))
 	ui.window.Show()
+}
+
+func (ui *UI) setTheme(app fyne.App) {
+	switch app.Preferences().String("theme") {
+	case "light":
+		app.Settings().SetTheme(theme.LightTheme())
+	case "dark":
+		app.Settings().SetTheme(theme.DarkTheme())
+	default:
+		app.Settings().SetTheme(theme.DarkTheme())
+	}
 }

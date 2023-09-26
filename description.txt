@@ -1,0 +1,24 @@
+Smart calculator
+
+Оглавление
+
+Описание
+Smart Calc is a feature-rich calculator that supports exponential notation, trigonometric functions, and graph plotting. The core of this calculator is implemented as an algorithm for expression parsing (Dijkstra's algorithm) and calculation of Polish notation. Various computational functions are implemented in C/C++ and integrated into the main codebase, while the program itself is written in Golang.
+
+Особенности
+- для преобразования выражений в обратную польскую нотацию использован алгоритм Дейкстры (алгоритм сортировочной станции)
+- алгоритм реализован на языке C++ и интегрирован с помощью утилиты swig
+- шаблон проектирования MVVM
+- возможность кросс-компиляции на windows/linux
+- кастомные компоненты fyne
+- сохранение настроек приложения, истории, логирование операций (с ротацией логов через выбранный промежуток)
+
+
+Использование
+- task build: build the application
+- task pack: create distro
+- task cross-linux: build for linux using fyne-cross
+- task cross-windows: build for windows using fyne-cross
+- task test: run tests
+
+автор: hsensor

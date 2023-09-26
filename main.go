@@ -7,9 +7,9 @@ import (
 )
 
 func main() {
-	app := app.New()
+	app := app.NewWithID("smartcalc")
 
 	ui := view.NewUI()
-	ui.LoadUI(app)
+	ui.LoadUI()
 	app.Run()
 }
