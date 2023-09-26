@@ -26,7 +26,7 @@ Smart Calc is a feature-rich calculator that supports exponential notation, trig
 
 ## Usage
 
-To use this project, you can utilize the following [task](https://taskfile.dev/) commands:
+To use this project, you can utilize the following [task](https://taskfile.dev/installation/) commands:
 
  Build the application:
 
@@ -34,13 +34,13 @@ To use this project, you can utilize the following [task](https://taskfile.dev/)
 task build
 ```
 
-Create a distribution package:
+Create a distribution package ([fyne](https://developer.fyne.io/started/) is required):
 
 ```shell
 task pack
 ```
 
-Build for the Linux/Windows platform using fyne-cross:
+Build for the Linux/Windows platform using fyne-cross ([fyne-cross](https://developer.fyne.io/started/) and [docker](https://docs.docker.com/engine/install/) are required):
 
 ```shell
 task cross-linux
